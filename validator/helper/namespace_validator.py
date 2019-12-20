@@ -1,9 +1,9 @@
 import os
-from validator.validator import Validator
+from validator.base_validator import BaseValidator
 
-class NamespaceValidator(Validator):
+class NamespaceValidator(BaseValidator):
     def __init__(self, path, expected_first_namespace_folder):
-        Validator.__init__(self)
+        BaseValidator.__init__(self)
         self.path = path
         self.expected_first_namespace_folder = expected_first_namespace_folder
 
@@ -29,8 +29,10 @@ class NamespaceValidator(Validator):
                         expected_namespaces = list(filter(lambda x: (x.strip() != ""), namespace_folder.split('/'))) 
                         actual_namespaces = list(filter(lambda x: (x.strip() != ""), namespace.split('.')))
                         if(expected_namespaces != actual_namespaces):
-                            print(f"Expected: {expected_namespaces}")
-                            print(f"Actual: {actual_namespaces}")
+                            print(f"Expected: {'.'.join(expected_namespaces)}")
+                            print(f"Actual: {'.'.join(actual_namespaces)}")
+                            print(f"At {filename}")
+                            print()
                         break
             else :
                 if os.path.isdir(os.path.join(folder_path, filename)):
